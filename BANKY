@@ -1,0 +1,66 @@
+// BankAccount.java
+ class BankAccount {
+    protected double balance;
+
+    public BankAccount(double initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited: " + amount);
+            System.out.println("New Balance: " + balance);
+        } else {
+            System.out.println("Deposit amount must be positive.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrew: " + amount);
+            System.out.println("New Balance: " + balance);
+        } else {
+            System.out.println("Insufficient funds or invalid amount.");
+        }
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+}
+
+// SavingsAccount.java
+class SavingsAccount extends BankAccount {
+
+    public SavingsAccount(double initialBalance) {
+        super(initialBalance);
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if (amount > 0 && balance - amount >= 100) {
+            balance -= amount;
+            System.out.println("Withdrew: " + amount);
+            System.out.println("New Balance: " + balance);
+        } else {
+            System.out.println("Withdrawal not allowed. Minimum balance must be maintained.");
+        }
+    }
+}
+
+// Main.java
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account1 = new BankAccount(500);
+        account1.deposit(200);
+        account1.withdraw(150);
+
+       SavingsAccount account2 = new SavingsAccount(500);
+       account2.deposit(200);
+        account2.withdraw(550);  // Should prevent withdrawal
+        account2.withdraw(50);;  // Should allow withdrawal
+    }
+}
+
